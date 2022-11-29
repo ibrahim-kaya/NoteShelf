@@ -41,10 +41,25 @@
 
         </div>
 
-        <div class="flex justify-between items-center mt-4">
+        <div class="flex justify-between items-center mt-4 text-sm">
             <div class="flex items-center">
-                <i class="fa-solid fa-user" style="color: {{ $note->color }};"></i>
-                <p class="ml-2">{{ \App\Models\User::find($note->user_id)->name }}</p>
+                <div class="flex items-center border p-1 rounded-lg">
+                    @if($note->visibility == "public")
+                        <i class="fa-solid fa-users text-green-400" title="Herkese Açık"></i>
+                    @else
+                        <i class="fa-solid fa-user text-red-400" title="Sadece Sen"></i>
+                    @endif
+
+                </div>
+
+                <div class="flex items-center ml-2">
+                    <div class="flex justify-center items-center rounded-full bg-white p-1">
+                        <i class="fa-solid fa-user" style="color: {{ $note->color }};"></i>
+
+                    </div>
+                    <p class="ml-2">{{ \App\Models\User::find($note->user_id)->name }}</p>
+                </div>
+
             </div>
 
             <div class="flex items-center">
