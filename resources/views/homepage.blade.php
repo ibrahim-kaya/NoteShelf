@@ -8,6 +8,18 @@
 
     <h2>Son Notlarınız</h2>
 
+    <div class="wrapper">
+        <div class="button" onclick="document.body.classList.add('active')">
+            <span class="button-text">Press</span>
+            <div class="button-backgrounds">
+                <div class="button-circle button-circle1"></div>
+                <div class="button-circle button-circle2"></div>
+                <div class="button-circle button-circle3"></div>
+                <div class="button-circle button-circle4"></div>
+            </div>
+        </div>
+    </div>
+
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
 
         @foreach ($notes as $note)
