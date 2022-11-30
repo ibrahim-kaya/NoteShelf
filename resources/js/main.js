@@ -1,6 +1,7 @@
 import jQuery from 'jquery';
 window.$ = jQuery;
 
+
 $(document).ready(function() {
     $('.new-note-btn').click(function () {
         $('.new-note-container').css('max-height', '350px');
@@ -60,7 +61,18 @@ $(document).ready(function() {
             type: 'POST',
             data: formData,
             success: function (response) {
-                console.log(response);
+                $("#new-note-form").trigger("reset");
+                newNoteEditor.setData('');
+
+                iziToast.success({
+                    title: 'Başarılı',
+                    message: 'Notunuz başarıyla oluşturuldu!',
+                    position: 'topRight',
+                    timeout: 5000,
+                    transitionIn: 'fadeInDown',
+                    transitionOut: 'fadeOutUp',
+                    progressBarColor: 'rgb(0, 255, 184)'
+                });
             },
             error: function (response) {
                 var errors = "";
@@ -80,3 +92,5 @@ $(document).ready(function() {
         });
     });
 });
+
+

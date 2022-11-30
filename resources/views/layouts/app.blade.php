@@ -320,7 +320,13 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script>
-
+    function hideDropDown() {
+        var menu = $('.note-dropdown.swing-in-top-fwd');
+        menu.fadeOut('slow');
+        menu.removeClass('swing-in-top-fwd').addClass('swing-out-top-bck');
+        if (menu.hasClass('note-dropdown-alt')) $('.new-note-container').css('max-height', '-=' + menu.height() + 'px');
+        $('.dropdown-bg').fadeOut();
+    }
 </script>
 
 @yield('scripts')

@@ -125,4 +125,25 @@ class NoteController extends Controller
     {
         //
     }
+
+    public function getNote(Request $request)
+    {
+        $this->validate($request, [
+            'id' => 'required|integer|exists:notes,id',
+        ], [
+            'id.required' => 'Istek gecersiz!',
+            'id.integer' => 'Istek gecersiz!',
+            'id.exists' => 'Istek gecersiz!'
+        ]);
+
+        $note = Note::find($request->id);
+
+        if ($note->password != null) {
+            if ($request->password != $note->password) {
+                return response()->json(['status' => 'error', 'message' => 'Şifre hatalı!'], 422);
+            }
+        }
+
+        return response()->json(['status' => 'success', 'note' => $note->note, 'title' => $note->title], 200);
+    }
 }

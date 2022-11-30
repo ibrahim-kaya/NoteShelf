@@ -21,6 +21,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/dashboard', [\App\Http\Controllers\MainController::class, 'index'])->name('dashboard');
 
     Route::resource('notes', \App\Http\Controllers\NoteController::class);
+    Route::post('notes/get-note', [\App\Http\Controllers\NoteController::class, 'getNote'])->name('notes.get-note');
 });
 
 require __DIR__.'/auth.php';

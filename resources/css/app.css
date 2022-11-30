@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,8 +7,6 @@
 * {
     font-family: 'Jost', sans-serif;
 }
-
-
 
 @layer utilities {
     .smooth {
@@ -47,7 +47,7 @@
     }
 
     .dropdown-bg {
-        @apply absolute top-0 left-0 w-full h-full z-20;
+        @apply fixed top-0 left-0 w-full h-full z-20;
         display: none;
     }
 }
@@ -96,168 +96,39 @@
     }
 }
 
-
-
-
-@import url('https://fonts.googleapis.com/css?family=Raleway');
-
-:root, button{
-    font-family: 'Raleway', serif;
-}
-
-*{
-    box-sizing: border-box;
-}
-
 .color{
     background: linear-gradient(to right, #e1e0ff, #d7fadd);
 }
 
-body{
-    background: #191919;
-    background: white;
-    user-select: none;
-    letter-spacing: 3px;
-    color: #b9b9b9;
-}
-
-h1{
+.content-wrapper h1{
     padding-bottom: 40px;
     text-transform: uppercase;
     letter-spacing: 3px;
     font-size: 16px;
 }
 
-p{
+content-wrapper p{
     padding-bottom: 15px;
 }
 
-p:last-of-type{
+content-wrapper p:last-of-type{
     padding-bottom: 0;
 }
 
-.try-again{
-    cursor: pointer;
-    position: relative;
-    font-size: 16px;
-}
-
-.try-again:after{
-    content: '';
-    position: absolute;
-    left: 15px;
-    right: 15px;
-    height: 1px;
-    top: 100%;
-    background: #ebebeb;
-    margin-top: 8px;
-    transition: all 0.3s ease;
-}
-
-.try-again:hover:after{
-    left: 40%;
-    right: 40%;
-}
-
 .wrapper{
-
-    display: flex;
+    @apply fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 mx-auto w-11/12 md:w-2/3 max-h-[90vh];
+    display: none;
     align-items: center;
     justify-content: center;
-}
-
-.button{
-    cursor: pointer;
-    position: relative;
-    z-index: 2;
-    -webkit-appearance: none;
-    background: none;
-    outline: none;
-    border: none;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    border-radius: 2px;
-    transition: all 0.5s ease;
-    font-weight: 600;
-    font-size: 14px;
-    height: 60px;
-    width: 110px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid rgba(0,0,0,0.06);
-    border-radius: 0px;
-    box-shadow: 0 0 0 white, 0 0 0 white;
-}
-
-.button-text{
-    display: inline-block;
-    position: relative;
-    z-index: 2;
-    background: linear-gradient(to right, #504bff, #4cfa63);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.button-circle{
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 6px;
-    width: 6px;
-    border-radius: 50%;
-    box-shadow: 0 0 10px #504bff, 0 0 20px #504bff, 0 0 30px #504bff;
-    transition: all 0.5s ease;
-}
-
-.button-circle2{
-    top: auto;
-    bottom: 0;
-}
-
-.button-circle3{
-    left: auto;
-    right: 0;
-    box-shadow: 0 0 10px #4cfa63, 0 0 20px #4cfa63, 0 0 30px #4cfa63;
-}
-
-.button-circle4{
-    left: auto;
-    top: auto;
-    bottom: 0;
-    right: 0;
-    box-shadow: 0 0 10px #4cfa63, 0 0 20px #4cfa63, 0 0 30px #4cfa63;
-}
-
-.button:hover{
-    box-shadow: -15px 0 70px -15px #504bff, 15px 0 70px -15px #4cfa63;
-}
-
-.button:hover .button-circle1{
-    transform: translate(-15px, -15px) scale(0);
-}
-
-.button:hover .button-circle2{
-    transform: translate(-15px, 15px) scale(0);
-}
-
-.button:hover .button-circle3{
-    transform: translate(15px, -15px) scale(0);
-}
-
-.button:hover .button-circle4{
-    transform: translate(15px, 15px) scale(0);
-}
-
-.button:hover .button-circle{
-    box-shadow: none;
 }
 
 .popup{
+    @apply max-h-[90vh];
+    max-width: 100%;
     opacity: 0;
     visibility: hidden;
-    height: 400px;
-    width: 400px;
+    height: 1000px;
+    width: 1000px;
     flex-shrink: 0;
     border-radius: 3px;
     position: relative;
@@ -275,7 +146,7 @@ p:last-of-type{
     height: 100%;
     width: 100%;
     overflow: hidden;
-    border-radius: 50%;
+    border-radius: 3%;
     box-shadow: 0 0 0 black;
     transition:
         box-shadow 0.5s ease 0.7s,
@@ -301,7 +172,7 @@ p:last-of-type{
     background: linear-gradient(to right, #504bff, #4cfa63);
     transform: scale(0);
     transition: all 0.5s ease 0s;
-    border-radius: 50%;
+    border-radius: 3%;
 }
 
 .background2{
@@ -371,16 +242,13 @@ p:last-of-type{
     right: var(--offset);
     bottom: var(--offset);
     top: var(--offset);
-    display: flex;
-    align-items: center;
-    justify-content: center;
     opacity: 0;
     transition: all 0.35s ease 0.75s;
     z-index: 10;
 }
 
 .content-wrapper{
-    text-align: center;
+    @apply p-4 overflow-auto max-h-[78vh];
 }
 
 body.active .content{
@@ -394,7 +262,7 @@ body.active .popup{
 }
 
 body.active .popup-inside{
-    border-radius: 0;
+    border-radius: 20px;
     box-shadow: -50px 0 200px -50px #504bff, 50px 0 200px -50px #4cfa63;
 }
 

@@ -28,7 +28,6 @@
 
     </div>
 
-
     <div class="flex flex-col justify-between h-[85%]">
         <div class="relative h-full mt-2">
             @if($note->password)
@@ -36,7 +35,7 @@
                     <i class="fa-solid fa-lock text-6xl text-red-600/50"></i>
                 </div>
             @endif
-            <h3 class="text-lg font-semibold my-2 note-title">{{ $note->title }}</h3>
+            <h3 class="text-lg font-semibold my-2 note-title" data-modal="note">{{ $note->title }}</h3>
             <p class="my-2 text-gray-600" @if($note->password) style="filter: blur(3px); user-select: none;" @endif>{{ \Illuminate\Support\Str::limit(strip_tags(((!$note->password) ? $note->note : 'Maalesef efekti kaldırınca notu göremezsin. Ama çabaların için tebrikler :) Notu görmek istiyorsan şifresini biliyor olmalısın.')), 128, '...') }}</p>
 
         </div>
