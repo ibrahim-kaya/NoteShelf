@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('title', 255);
             $table->text('note');
             $table->foreignId('user_id')->constrained('users');
-            $table->string('color', 255)->default('white');
+            $table->foreignId('color')->constrained('note_colors');
             $table->string('password', 255)->nullable();
             $table->enum('visibility', ['public', 'private'])->default('private');
             $table->timestamps();

@@ -62,7 +62,7 @@ $('[data-modal="note"]').click(function () {
     var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
     $.ajax({
-        url: '/notes/get-note',
+        url: '/note/get-note',
         type: 'POST',
         data: {_token: csrfToken, id: noteId},
         success: function (data) {
@@ -95,7 +95,7 @@ $('#unlock-note').submit(function (e) {
     var password = $('#pw_modal input').val();
 
     $.ajax({
-        url: '/notes/get-note',
+        url: '/note/get-note',
         type: 'POST',
         data: {_token: csrfToken, id: noteId, password: password},
         success: function (data) {

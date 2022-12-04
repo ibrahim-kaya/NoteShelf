@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Note;
+use App\Models\NoteIcon;
 use Illuminate\Http\Request;
 
 class NoteController extends Controller
@@ -38,7 +39,7 @@ class NoteController extends Controller
         $this->validate($request, [
             'title' => 'required|string|max:255',
             'note' => 'required|string',
-            'color' => 'required|integer',
+            'color' => 'required|integer|exists:note_colors,id',
             'icon' => 'required|integer|exists:note_icons,id',
             'privacy' => 'required|string|in:public,private',
         ], [
@@ -49,6 +50,7 @@ class NoteController extends Controller
             'note.string' => 'Not alanı geçersiz!',
             'color.required' => 'Renk alanı boş bırakılamaz!',
             'color.integer' => 'Renk alanı geçersiz!',
+            'color.in' => 'Renk alanı geçersiz!',
             'icon.required' => 'Simge alanı boş bırakılamaz!',
             'icon.integer' => 'Simge alanı geçersiz!',
             'icon.exists' => 'Simge alanı geçersiz!',
@@ -57,24 +59,13 @@ class NoteController extends Controller
             'privacy.in' => 'Gizlilik alanı geçersiz!',
         ]);
 
-        $colors = [
-            1 => '#60a5fa',
-            2 => '#818cf8',
-            3 => '#4ade80',
-            4 => '#facc15'
-        ];
-
-        if(!array_key_exists($request->color, $colors)) return response()->json(['message' => 'Geçersiz renk değeri!', [
-            'color' => 'Renk alanı geçersiz!'
-        ]], 422);
-
 
         $note = new Note();
         $note->icon_id = $request->icon;
         $note->title = $request->title;
         $note->note = $request->note;
         $note->user_id = auth()->user()->id;
-        $note->color = $colors[$request->color];
+        $note->color = $request->color;
         $note->password = $request->password ?? null;
         $note->visibility = $request->privacy;
         if($note->save()) return response()->json(['status' => 'success', 'message' => 'Not başarıyla oluşturuldu!'], 200);
@@ -89,7 +80,11 @@ class NoteController extends Controller
      */
     public function show($id)
     {
-        //
+        $note = Note::find($id) ?? abort(404);
+        if($note->visibility == 'private' && $note->user_id != auth()->user()->id) return view('pages.note', ['status' => 'error', 'message' => 'Bu notu görüntüleme yetkiniz yok!']);
+        if($note->password != null) return view('pages.note', ['status' => 'locked', 'message' => 'Bu not şifreli!']);
+
+        return view('pages.note', ['status' => 'success', 'note' => $note]);
     }
 
     /**
@@ -100,7 +95,13 @@ class NoteController extends Controller
      */
     public function edit($id)
     {
-        //
+
+        $note = Note::find($id) ?? abort(404);
+        if($note->user_id != auth()->user()->id) return view('pages.edit-note', ['status' => 'error', 'message' => 'Bu notu düzenleme yetkiniz yok!']);
+
+        $icons = NoteIcon::all();
+        return view('pages.edit-note', ['status' => 'success', 'note' => $note, 'icons' => $icons]);
+
     }
 
     /**
@@ -144,6 +145,6 @@ class NoteController extends Controller
             }
         }
 
-        return response()->json(['status' => 'success', 'note' => $note->note, 'title' => $note->title], 200);
+        return response()->json(['status' => 'success', 'note' => view('includes.show-note-modal', ['note' => $note])->render(), 'title' => $note->title], 200);
     }
 }

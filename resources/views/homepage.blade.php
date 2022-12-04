@@ -11,7 +11,7 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
 
         @foreach ($notes as $note)
-            @include('includes.home-note-card', ['note' => $note])
+            @include('includes.home-note-card', ['note' => $note, 'colors' => $colors])
         @endforeach
 
     </div>

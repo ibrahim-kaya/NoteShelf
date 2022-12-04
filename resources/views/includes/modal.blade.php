@@ -76,9 +76,7 @@
             </div>
 
             <div class="content-wrapper">
-                <h1>well done</h1>
-                <p>Do you like it?</p>
-                <p class="try-again" onclick="">Yes! I will try again</p>
+
             </div>
         </div>
     </div>
