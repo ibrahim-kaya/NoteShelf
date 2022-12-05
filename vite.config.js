@@ -8,6 +8,8 @@ export default defineConfig({
                 'resources/css/app.css',
                 'resources/js/app.js',
                 'resources/js/homepage.js',
+                'resources/js/edit-note-page.js',
+                'resources/js/note-page.js',
             ],
             refresh: true,
         }),

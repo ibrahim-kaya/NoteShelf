@@ -2,6 +2,21 @@ import jQuery from 'jquery';
 window.$ = jQuery;
 
 
+
+var anim_cooldown = false;
+
+function hideDropDown() {
+    if (anim_cooldown) return;
+    anim_cooldown = true;
+    var menu = $('.note-dropdown.swing-in-top-fwd');
+    menu.fadeOut('slow');
+    menu.removeClass('swing-in-top-fwd').addClass('swing-out-top-bck');
+    if (menu.hasClass('note-dropdown-alt')) $('.new-note-container').css('max-height', '350px');
+    $('.dropdown-bg').fadeOut('slow', function () {
+        anim_cooldown = false;
+    });
+}
+
 $(document).ready(function() {
     $('.new-note-btn').click(function () {
         $('.new-note-container').css('max-height', '350px');
@@ -10,18 +25,19 @@ $(document).ready(function() {
         $('.new-note-container').css('max-height', '0');
     });
 
-    var newNoteEditor;
+    $('.options').click(function () {
+        var menu = $(this).next();
+        menu.css('display', 'block');
+        menu.removeClass('swing-out-top-bck').addClass('swing-in-top-fwd');
 
-    InlineEditor
-        .create(document.querySelector('#editor'), {
-            placeholder: 'Not içeriği giriniz...'
-        })
-        .then(editor => {
-            newNoteEditor = editor;
-        })
-        .catch(error => {
-            console.error(error);
-        });
+        if (menu.hasClass('note-dropdown-alt')) $('.new-note-container').css('max-height', '+=' + menu.height() + 'px');
+
+        $('.dropdown-bg').fadeIn();
+    });
+
+    $('.dropdown-bg').click(function () {
+        hideDropDown();
+    });
 
 
     $('.note-color-opt').click(function () {

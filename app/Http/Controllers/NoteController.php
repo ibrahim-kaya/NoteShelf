@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Note;
+use App\Models\NoteColor;
 use App\Models\NoteIcon;
 use Illuminate\Http\Request;
 
@@ -82,7 +83,7 @@ class NoteController extends Controller
     {
         $note = Note::find($id) ?? abort(404);
         if($note->visibility == 'private' && $note->user_id != auth()->user()->id) return view('pages.note', ['status' => 'error', 'message' => 'Bu notu görüntüleme yetkiniz yok!']);
-        if($note->password != null) return view('pages.note', ['status' => 'locked', 'message' => 'Bu not şifreli!']);
+        if($note->password != null) return view('pages.note', ['status' => 'locked', 'message' => 'Bu not şifreli!', 'note' => $note->id]);
 
         return view('pages.note', ['status' => 'success', 'note' => $note]);
     }
@@ -100,7 +101,8 @@ class NoteController extends Controller
         if($note->user_id != auth()->user()->id) return view('pages.edit-note', ['status' => 'error', 'message' => 'Bu notu düzenleme yetkiniz yok!']);
 
         $icons = NoteIcon::all();
-        return view('pages.edit-note', ['status' => 'success', 'note' => $note, 'icons' => $icons]);
+        $colors = NoteColor::all();
+        return view('pages.edit-note', ['status' => 'success', 'note' => $note, 'icons' => $icons, 'colors' => $colors]);
 
     }
 
@@ -113,7 +115,41 @@ class NoteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $note = Note::find($id) ?? abort(404);
+
+        if($note->user_id != auth()->user()->id) return response()->json(['status' => 'error', 'message' => 'Bu notu düzenleme yetkiniz yok!'], 403);
+
+        $this->validate($request, [
+            'title' => 'required|string|max:255',
+            'note' => 'required|string',
+            'color' => 'required|integer|exists:note_colors,id',
+            'icon' => 'required|integer|exists:note_icons,id',
+            'privacy' => 'required|string|in:public,private',
+        ], [
+            'title.required' => 'Başlık alanı boş bırakılamaz!',
+            'title.string' => 'Başlık alanı geçersiz!',
+            'title.max' => 'Başlık alanı en fazla 255 karakter olabilir!',
+            'note.required' => 'Not alanı boş bırakılamaz!',
+            'note.string' => 'Not alanı geçersiz!',
+            'color.required' => 'Renk alanı boş bırakılamaz!',
+            'color.integer' => 'Renk alanı geçersiz!',
+            'color.in' => 'Renk alanı geçersiz!',
+            'icon.required' => 'Simge alanı boş bırakılamaz!',
+            'icon.integer' => 'Simge alanı geçersiz!',
+            'icon.exists' => 'Simge alanı geçersiz!',
+            'privacy.required' => 'Gizlilik alanı boş bırakılamaz!',
+            'privacy.string' => 'Gizlilik alanı geçersiz!',
+            'privacy.in' => 'Gizlilik alanı geçersiz!',
+        ]);
+
+        $note->icon_id = $request->icon;
+        $note->title = $request->title;
+        $note->note = $request->note;
+        $note->color = $request->color;
+        $note->password = $request->password ?? null;
+        $note->visibility = $request->privacy;
+        if($note->save()) return response()->json(['status' => 'success', 'message' => 'Not başarıyla güncellendi!', 'note' => $note->id], 200);
+        return response()->json(['status' => 'error', 'message' => 'Not güncellenemedi!'], 500);
     }
 
     /**

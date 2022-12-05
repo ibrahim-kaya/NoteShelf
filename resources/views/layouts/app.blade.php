@@ -40,7 +40,7 @@
 
                 <div class="sticky top-5 bottom-0">
                     <div>
-                        <h1 class="text-2xl font-bold text-gray-800 m-4">NoteShelf</h1>
+                        <h1 class="text-2xl font-bold text-gray-800 m-4"><a href="{{ route('homepage') }}">NoteShelf</a></h1>
                     </div>
 
                     <hr>
@@ -154,7 +154,7 @@
                     @include('includes.add-note-widget', ['icons' => $icons])
                 @endif
 
-                <div class="w-full bg-white rounded-lg mt-8 shadow-md p-5">
+                <div class="w-full bg-white rounded-lg mt-8 shadow-md p-5 min-h-screen">
 
                     @yield('content')
 
@@ -172,22 +172,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/all.min.js"
         integrity="sha512-naukR7I+Nk6gp7p5TMA4ycgfxaZBJ7MO5iC3Fp6ySQyKFHOGfpkSZkYVWV5R7u7cfAicxanwYQ5D1e17EfJcMA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-<script>
-    var anim_cooldown = false;
-
-    function hideDropDown() {
-        if (anim_cooldown) return;
-        anim_cooldown = true;
-        var menu = $('.note-dropdown.swing-in-top-fwd');
-        menu.fadeOut('slow');
-        menu.removeClass('swing-in-top-fwd').addClass('swing-out-top-bck');
-        if (menu.hasClass('note-dropdown-alt')) $('.new-note-container').css('max-height', '350px');
-        $('.dropdown-bg').fadeOut('slow', function () {
-            anim_cooldown = false;
-        });
-    }
-</script>
 
 @yield('scripts')
 

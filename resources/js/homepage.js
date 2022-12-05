@@ -2,19 +2,18 @@ import jQuery from 'jquery';
 
 window.$ = jQuery;
 
-$('.options').click(function () {
-    var menu = $(this).next();
-    menu.css('display', 'block');
-    menu.removeClass('swing-out-top-bck').addClass('swing-in-top-fwd');
+export var newNoteEditor;
 
-    if (menu.hasClass('note-dropdown-alt')) $('.new-note-container').css('max-height', '+=' + menu.height() + 'px');
-
-    $('.dropdown-bg').fadeIn();
-});
-
-$('.dropdown-bg').click(function () {
-    hideDropDown();
-});
+InlineEditor
+    .create(document.querySelector('#editor'), {
+        placeholder: 'Not içeriği giriniz...'
+    })
+    .then(editor => {
+        newNoteEditor = editor;
+    })
+    .catch(error => {
+        console.error(error);
+    });
 
 function showModal(title, content) {
 
@@ -22,7 +21,7 @@ function showModal(title, content) {
     $('.content-wrapper').html(content);
     $('.content-wrapper a').attr('target','_blank');
     $('#modal-bg').fadeIn();
-    $("body").css({ overflow: 'hidden' })
+    $("body").css({ overflow: 'hidden' });
     $('.wrapper').css('display', 'flex');
     setTimeout(function () {
         document.body.classList.add('active');
