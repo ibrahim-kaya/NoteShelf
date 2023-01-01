@@ -29,7 +29,7 @@
                     <p class="new-note-options-text mr-2">Not Simgesi:</p>
                     <div
                         class="note-icon flex justify-center items-center h-6 w-6 rounded-full bg-blue-100">
-                        <i class="{{ $icons->first()->icon }} text-blue-900"></i>
+                        <i class="{{ $icons->first()->icon ?? '' }} text-blue-900"></i>
                     </div>
                     <input type="hidden" name="icon" value="1">
                 </div>
@@ -53,8 +53,8 @@
             <div class="relative">
                 <div class="flex items-center py-2 sm:py-1 px-2 rounded-full bg-blue-50 options">
                     <p class="new-note-options-text mr-2">Not Rengi:</p>
-                    <div class="note-color h-6 w-6 rounded-full" style="background-color: {{ $colors->first()->color }}"></div>
-                    <input type="hidden" name="color" value="{{ $colors->first()->id }}">
+                    <div class="note-color h-6 w-6 rounded-full" style="background-color: {{ $colors->first()->color ?? '' }}"></div>
+                    <input type="hidden" name="color" value="{{ $colors->first()->id ?? '' }}">
                 </div>
 
                 <div class="note-dropdown note-dropdown-alt">

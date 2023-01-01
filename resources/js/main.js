@@ -1,6 +1,7 @@
 import jQuery from 'jquery';
 window.$ = jQuery;
 
+import {newNoteEditor} from "./homepage";
 
 
 var anim_cooldown = false;
